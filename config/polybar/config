@@ -1,0 +1,498 @@
+;=====================================================
+;POLYBAR CONFIG
+;=====================================================
+
+[colors]
+background = #5a000000
+background-alt = #444
+foreground = #eee
+foreground-alt = #ffffff
+primary = #88000000
+graphite = #dddddd
+red = #FF0000
+black = #000000
+;green = #06D561
+;pink = #FFA0CD
+orange = #F07127
+;blue = #01B0F0
+;purple = #D7AFF9
+;yellow_soft = #F9F1AF
+yellow = #F9CE56
+white = #ffffff
+
+; Primtemps
+green = #66fc5b
+pink = #ff7bbc
+blue = #6cd4fe
+yellow_soft = #fbff3e
+blue_soft = #2ddcc8
+purple = #d485fe
+
+
+[bar/example]
+;monitor = eDP1
+monitor = ${env:MONITOR:}
+monitor-fallback = HDMI2
+monitor-strict = false
+override-redirect = false
+width = 100%
+height = 28
+radius = 0.0
+fixed-center = false
+enable-ipc = true
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 3
+line-color = ${colors.red}
+
+border-size-left = 8
+border-color = ${colors.black}
+
+padding-left = 0
+padding-right = 0w
+
+module-margin-left = 1
+module-margin-right = 1
+
+font-0 = "fixed:pixelsize=10;3"
+font-1 = "Material Design Icons:style=Regular:pixelsize=15;3"
+
+
+modules-left = i3
+modules-center = spotify
+modules-right = vpncg wired-network wireless-network pkg cpu temperature memory xkeyboard redshift bluetooth volume xbacklight battery date powermenu
+; modules-right = filesystem xbacklight volume xkeyboard memory cpu wlan eth battery temperature date powermenu spotify
+
+tray-position = right
+tray-padding = 2
+;pseudo-transparency = true
+
+;;;;;;;;;;;;;;;
+;; XKEYBOARD ;;
+;;;;;;;;;;;;;;;
+[module/xkeyboard]
+type = internal/xkeyboard
+blacklist-0 = num lock
+format = <label-indicator>
+format-prefix-foreground = ${colors.foreground-alt}
+label-indicator-on = 󰘲
+
+;;;;;;;;
+;; I3 ;;
+;;;;;;;;
+[module/i3]
+type = internal/i3
+
+ws-icon-0 = 1;󰊯
+ws-icon-1 = 2;󰨊
+ws-icon-2 = 3;󰨞
+ws-icon-3 = 4;󰖲
+ws-icon-4 = 5;󰗃
+ws-icon-5 = 6;󰈌
+ws-icon-6 = 7;󰔁
+ws-icon-7 = 8;󰇮
+ws-icon-8 = 9;󰙯
+ws-icon-9 = 10;󰓇
+ws-icon-default = 󰖲
+
+format = <label-state> <label-mode>
+index-sort = true
+wrapping-scroll = false
+
+label-mode-padding = 2
+label-mode-foreground = ${colors.graphite}
+;label-mode-background = ${colors.primary}
+
+label-focused = %index%: %icon%
+label-focused-background = ${colors.primary}
+label-focused-underline = ${colors.orange}
+label-focused-padding = 2
+
+label-unfocused = %index%: %icon%
+label-unfocused-padding = 2
+
+label-visible = %index%: %icon%
+label-visible-padding = 2
+;label-visible-background = ${colors.blue}
+label-visible-underline = ${colors.blue}
+
+
+label-urgent = %index%: %icon%
+label-urgent-background = ${colors.red}
+label-urgent-foreground = ${colors.black}
+label-urgent-padding = 2
+
+;;;;;;;;;
+;; CPU ;;
+;;;;;;;;;
+[module/cpu]
+type = internal/cpu
+interval = 2
+format-prefix = "󰓅 "
+format-prefix-foreground = ${colors.green}
+label = %percentage%%
+
+;;;;;;;;;;;;
+;; MEMORY ;;
+;;;;;;;;;;;;
+[module/memory]
+type = internal/memory
+interval = 3
+format-prefix = 󰒋
+format-prefix-foreground = ${colors.blue}
+format = <label>
+label = %percentage_used%%
+
+;;;;;;;;;;;;;;
+;; ETHERNET ;;
+;;;;;;;;;;;;;;
+[module/wired-network]
+type = internal/network
+interface = enp0s31f6
+format-connected = <ramp-signal> <label-connected>
+label-connected = %downspeed% %upspeed%
+
+format-connected-foreground = ${colors.purple}
+format-disconnected = <label-disconnected>
+ramp-signal-0 = 󰈀
+ramp-signal-0-foreground = ${colors.purple}
+
+;;;;;;;;;;
+;; WIFI ;;
+;;;;;;;;;;
+[module/wireless-network]
+type = internal/network
+interface = wlp4s0
+
+format-connected = <ramp-signal> <label-connected>
+format-packetloss = <animation-packetloss>
+label-connected = %{A1:nm-connection-editor:}%essid%%{A} %downspeed% %upspeed%
+;%local_ip%
+
+ramp-signal-0 = 󰤯
+ramp-signal-0-foreground = ${colors.red}
+ramp-signal-1 = 󰤟
+ramp-signal-1-foreground = ${colors.orange}
+ramp-signal-2 = 󰤢
+ramp-signal-2-foreground = ${colors.yellow}
+ramp-signal-3 = 󰤥
+ramp-signal-3-foreground = ${colors.purple}
+ramp-signal-4 = 󰤨
+ramp-signal-4-foreground = ${colors.purple}
+
+animation-packetloss-0 = 󰤫
+animation-packetloss-0-foreground = ${colors.red}
+animation-packetloss-1 = 󰤫
+animation-packetloss-1-foreground = ${colors.white}
+
+animation-packetloss-framerate = 500
+
+;click-left = wifi-menu
+
+;;;;;;;;;;
+;; DATE ;;
+;;;;;;;;;;
+[module/date]
+type = internal/date
+
+; Seconds to sleep between updates
+interval = 1.0
+
+; See "man date" for details on how to format the date string
+; NOTE: if you want to use syntax tags here you need to use %%{...}
+;date = %d %b,
+
+; Optional time format
+time = %H:%M
+
+; if `date-alt` or `time-alt` is defined, clicking
+; the module will toggle between formats
+date-alt = %A %d %B %Y
+time-alt = %H:%M:%S
+
+label = %date% %time%
+format = 󰥔 %{T-}<label>
+;format-background = #ddffffff
+;format-background = #88000000
+;format-foreground = #333
+format-padding = 1
+
+;;;;;;;;;;;;
+;; VOLUME ;;
+;;;;;;;;;;;;
+[module/volume]
+type = internal/pulseaudio
+sink = alsa_output.pci-0000_00_1f.3.analog-stereo ; carte son PC
+use-ui-max = true
+
+format-volume = <ramp-volume> <label-volume>
+format-muted = <label-muted>
+label-volume = %percentage%
+label-muted = 󰝟
+label-muted-foreground = #aaa
+;format-volume-padding = 1
+;format-muted-padding = 1
+
+speaker-mixer = Speaker
+
+headphone-mixer = Headphone
+headphone-id = 17
+
+ramp-volume-0 = 󰕿
+ramp-volume-1 = 󰖀
+ramp-volume-2 = 󱄠
+ramp-headphones-0 = 󰟎
+ramp-headphones-1 = 󰋋
+
+;;;;;;;;;;;;;
+;; BATTERY ;;
+;;;;;;;;;;;;;
+[module/battery]
+type = internal/battery
+battery = BAT1
+adapter = AC
+full-at = 98
+label-charging = %percentage%%
+label-discharging = %percentage%%
+label-full = 󰁹
+format-charging = <animation-charging> <label-charging>
+;format-charging = <label-charging>
+format-discharging = <ramp-capacity> <label-discharging>
+format-full = <label-full>
+
+ramp-capacity-0 =  󱃍
+ramp-capacity-0-foreground = ${colors.red}
+ramp-capacity-1 =  󰁺
+ramp-capacity-2 =  󰁻
+ramp-capacity-3 =  󰁼
+ramp-capacity-4 =  󰁽
+ramp-capacity-5 =  󰁾
+ramp-capacity-6 =  󰁿
+ramp-capacity-7 =  󰂀
+ramp-capacity-8 =  󰂁
+ramp-capacity-9 =  󰂂
+ramp-capacity-foreground = ${colors.pink}
+
+animation-charging-0 =  󰢟
+animation-charging-1 =  󰢜
+animation-charging-2 =  󰂆
+animation-charging-3 =  󰂇
+animation-charging-4 =  󰂈
+animation-charging-5 =  󰢝
+animation-charging-6 =  󰂉
+animation-charging-7 =  󰢞
+animation-charging-8 =  󰂊
+animation-charging-9 =  󰂋
+animation-charging-foreground = ${colors.green}
+animation-charging-framerate = 400
+
+;;;;;;;;;;
+;; MENU ;;
+;;;;;;;;;;
+[module/powermenu]
+type = custom/menu
+
+label-open = " %{T4} %{T-}󰐥%{T4} %{T-} "
+label-close =
+format = <label-toggle><menu>
+label-separator = "  "
+
+format-foreground = ${colors.graphite}
+format-background = ${colors.primary}
+
+menu-0-0 = 󰐥
+menu-0-0-exec = #powermenu.open.1
+menu-0-1 = 
+menu-0-1-exec = #powermenu.open.2
+menu-0-2 = 
+menu-0-2-exec = menu-open-3
+menu-0-3 = 
+menu-0-3-exec = menu-open-4
+menu-0-4 = 
+menu-0-4-exec = menu-open-5
+menu-0-5 = "  "
+
+menu-1-0 = 󰐥
+menu-1-0-exec = systemctl suspend -i
+menu-1-1 = "  "
+
+menu-2-0 = 󰐥
+menu-2-0-exec = systemctl reboot -i
+menu-2-1 = "  "
+
+menu-3-0 = 
+menu-3-0-exec = systemctl poweroff -i
+menu-3-1 = "  "
+
+menu-4-0 = 
+menu-4-0-exec = i3lock
+menu-4-1 = "  "
+
+menu-5-0 = 
+menu-5-0-exec = i3-msg exit
+menu-5-1 = "  "
+
+;;;;;;;;;;;;;;
+;; REDSHIFT ;;
+;;;;;;;;;;;;;;
+[module/redshift]
+type = custom/script
+interval = 5
+exec = ~/.config/polybar/redshift.sh
+
+;;;;;;;;;
+;; PKG ;;
+;;;;;;;;;
+[module/pkg]
+type = custom/script
+interval = 600
+format = <label>
+label = "%output%"
+click-left = terminator -e "sudo pacman -Syu"
+click-right = terminator -e "yay -Syu"
+exec = ~/.config/polybar/pkg.sh
+; exec-if = "ping -q -w 2 -c 1 176.34.135.167 > /dev/null"
+exec-if = "ping -q -w 2 -c 1 archlinux.org > /dev/null"
+
+;;;;;;;;;;;;
+;; GITHUB ;;
+;;;;;;;;;;;;
+[module/github]
+type = internal/github
+token = ${~/.config/polybar/github_access.token}
+empty-notifications = false
+
+;;;;;;;;;;;;;;;;
+;; FILESYSTEM ;;
+;;;;;;;;;;;;;;;;
+[module/filesystem]
+type = internal/fs
+format-mounted = <label-mounted>
+label-mounted = %mountpoint% : %percentage_used%%
+label-mounted-foreground = ${colors.yellow_soft}
+mount-0 = /
+interval = 1200
+fixed-values = false
+spacing = 2
+
+;;;;;;;;;;;;;;;
+;; BLUETOOTH ;;
+;;;;;;;;;;;;;;;
+[module/bluetooth]
+type = custom/script
+interval = 5
+
+exec = ~/.config/polybar/bluetooth.sh
+
+;;;;;;;;;;;;;;;;;
+;; TEMPERATURE ;;
+;;;;;;;;;;;;;;;;;
+[module/temperature]
+type = internal/temperature
+
+interval = 1
+thermal-zone = 0
+
+; $ for i in /sys/class/hwmon/hwmon*/temp*_input; do echo "$(<$(dirname $i)/name): $(cat ${i%_*}_label 2>/dev/null || echo $(basename ${i%_*})) $(readlink -f $i)"; done
+;hwmon-path = /sys/devices/virtual/hwmon/hwmon0/temp1_input
+;hwmon-path = /sys/devices/platform/coretemp.0/hwmon/hwmon4/temp1_input
+warn-temperature = 70
+
+format = <ramp> <label>
+label = %temperature-c%
+
+ramp-0 = 󱑧
+ramp-0-foreground = ${colors.blue}
+ramp-1 = 󰞴
+ramp-1-foreground = ${colors.green}
+ramp-2 = 󰞳
+ramp-2-foreground = ${colors.pink}
+ramp-3 = 󰞲
+ramp-3-foreground = ${colors.orange}
+
+format-warn = <label-warn>
+label-warn = 󰈸 %temperature-c%
+label-warn-foreground = ${colors.red}
+
+;;;;;;;;;;;;;;
+;; SETTINGS ;;
+;;;;;;;;;;;;;;
+[settings]
+screenchange-reload = true
+;compositing-background = xor
+;compositing-background = screen
+;compositing-foreground = source
+;compositing-border = over
+
+;;;;;;;;;;;;
+;; GLOBAL ;;
+;;;;;;;;;;;;
+[global/wm]
+margin-top = 5
+margin-bottom = 5
+; vim:ft=dosini
+
+;;;;;;;;;;;;;;;;
+;; XBACKLIGHT ;;
+;;;;;;;;;;;;;;;;
+[module/xbacklight]
+type = internal/xbacklight
+enable-scroll = true
+
+format = <ramp>
+
+label = %percentage%%
+
+ramp-0 = 󰝦
+ramp-1 = 󰪞
+ramp-2 = 󰪟
+ramp-3 = 󰪠
+ramp-4 = 󰪡
+ramp-5 = 󰪢
+ramp-6 = 󰪣
+ramp-7 = 󰪤
+ramp-8 = 󰪥
+
+format-prefix-foreground = ${colors.yellow_soft}
+
+;;;;;;;;;;;;;;
+;; VPNCHECK ;;
+;;;;;;;;;;;;;;
+
+[module/vpncheck]
+type = custom/script
+exec = ~/.config/polybar/isrunning-openvpn.sh
+interval = 5
+;label = 
+;format = <label>
+;format-underline = #268bd2 ; soulignement
+;format-prefix = ""
+format-foreground = ${colors.red}
+;format-prefix-foreground = ${colors.red}
+click-left = nmcli connection up eisti.students && notify-send -u low "VPN eisti ON"
+click-right = nmcli connection down eisti.students && notify-send -u low "VPN eisti OFF"
+
+[module/vpncg]
+type = custom/script
+exec = ~/.config/polybar/isrunning-openvpn-cg.sh
+interval = 5
+click-left = systemctl start openvpn-client@cg_fr.service && notify-send -u low "VPN cg ON"
+click-right = systemctl stop openvpn-client@cg_fr.service && notify-send -u low "VPN cg OFF"
+;click-left = nmcli connection up cyberghost && notify-send -u low "VPN cg ON"
+;click-right = nmcli connection down cyberghost && notify-send -u low "VPN cg OFF"
+;format-underline = #268bd2 ; soulignement
+;format-prefix = "󰒄"
+;format-prefix-foreground = ${colors.yellow_soft}
+
+;;;;;;;;;;;;;;;
+;;  SPOTIFY  ;;
+;;;;;;;;;;;;;;;
+
+[module/spotify]
+type = custom/script
+exec = ~/.config/polybar/spotify.sh 󰓇 %artist% - %title%
+format-foreground = #1db954
+tail = true
+interval = 2
